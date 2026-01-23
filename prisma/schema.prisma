@@ -1,0 +1,67 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Company {
+    id        String      @id @default(cuid())
+    name      String
+    timezone  String @default("IST")
+    currency String @default("INR")
+    totalLeaves Int @default(22)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    users User[]
+    leaves LeaveRequest[]
+
+}
+
+model User {
+    id String @id @default(cuid())
+    name String?
+    email String @unique
+    password String
+    hasChangedPwd Boolean @default(false)
+    remainingLeaves Int @default(22)
+    deletedAt DateTime?
+    
+    role Role @default(EMPLOYEE)
+
+    companyId String?
+    company Company? @relation(fields:[companyId],references:[id])
+
+    managerId     String?
+    manager       User?     @relation("ManagerToEmployee", fields: [managerId], references: [id])
+    employees     User[]    @relation("ManagerToEmployee")
+    leaves LeaveRequest[]
+}
+
+enum Role{
+    MANAGER
+    EMPLOYEE
+}
+
+model LeaveRequest {
+    id String @id @default(cuid())
+    startDate DateTime
+    endDate DateTime
+    reason String
+    status LeaveStatus @default(PENDING)
+    createdAt DateTime @default(now())
+
+    userId String
+    user User @relation(fields:[userId],references:[id])
+
+    companyId String
+    company Company @relation(fields:[companyId],references:[id])
+}
+
+enum LeaveStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
