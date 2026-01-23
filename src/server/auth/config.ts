@@ -43,7 +43,7 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-  // @ts-ignore
+  // @ts-expect-error - Prisma and Auth version mismatch
   adapter: PrismaAdapter(db),
   callbacks: {
     session: ({ session, user }) => ({
