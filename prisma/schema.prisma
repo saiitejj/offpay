@@ -11,6 +11,7 @@ model Company {
     id        String      @id @default(cuid())
     name      String
     timezone  String @default("IST")
+    employeeCount Int @default(0)
     currency String @default("INR")
     totalLeaves Int @default(22)
     createdAt DateTime @default(now())
@@ -25,11 +26,12 @@ model User {
     name String?
     email String @unique
     password String
+    defaultEmpPass String?
     hasChangedPwd Boolean @default(false)
     remainingLeaves Int @default(22)
     deletedAt DateTime?
     
-    role Role @default(EMPLOYEE)
+    role Role @default(MANAGER)
 
     companyId String?
     company Company? @relation(fields:[companyId],references:[id])
