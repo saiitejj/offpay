@@ -1,31 +1,46 @@
 "use server"
 
 import { db } from "../../../lib/db"
-// import { db } from "~/lib/db"
-import bcrypt from "bcryptjs"
-export async function registerCompany(formData:any) {
+import * as bcrypt from "bcryptjs"
+
+interface RegisterCompanyData {
+    name?:string;
+    password?: string;
+    confirmPassword?: string;
+    companyName?: string;
+    employeeCount?: string;
+    employerName?: string;
+    email?: string;
+}
+
+export async function registerCompany(formData:RegisterCompanyData) {
     try{ 
 
-        if (formData.password!==formData.confirmPassword){
-            return {error:"Passwords do not match"}
+        if (!formData.password || !formData.confirmPassword || !formData.email) {
+            return { error: "Missing required fields" }
         }
-        const hashedPassword=await bcrypt.hash(formData.password,10)
-        const newCompany=await db.company.create({
+
+        if (formData.password !== formData.confirmPassword) {
+            return { error: "Passwords do not match" }
+        }
+        const passwordToHash =String(formData.password)
+        const hashedPassword :string =await bcrypt.hash(passwordToHash,10)
+        await db.company.create({
             data:{
-                name:formData.companyName,
-                employeeCount:parseInt(formData.employeeCount)||0,
+                name:formData.companyName ?? "Unnamed Company",
+                employeeCount:Number.parseInt(formData.employeeCount ?? "0")||0,
                 users:{
                     create:{
-                        name:formData.employerName,
+                        name:formData.employerName ?? "Employer",
                         email:formData.email,
-                        password:hashedPassword,
+                        password:hashedPassword ,
                         role:"MANAGER",
                     }
                 }
             }
         })
         return {success:true}
-    }catch(error:any){
+    }catch(error:unknown){
         console.error("SIGNUP_ERROR",error)
         return {error:"Something went wrong or email already exists."}
     }
