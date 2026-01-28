@@ -9,7 +9,7 @@ export default function HomePage(){
             <span className="bg-zinc-800 px-4 py-2 text-cyan-300 rounded-l-xl">Off</span> 
             <span className="bg-cyan-300 px-4 py-2 text-zinc-800 rounded-r-xl">Pay</span>
           
-          </h1> 
+          </h1>   
         </Link>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
