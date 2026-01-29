@@ -42,7 +42,32 @@ export async function registerCompany(formData:RegisterCompanyData) {
         return {success:true}
     }catch(error:unknown){
         console.error("SIGNUP_ERROR",error)
-        return {error:"Something went wrong or email already exists."}
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        
+        return {error:"Something went wrong or email already exists.",errorMessage}
     }
 
+}
+
+export async function loginUser(formData:{email?:string;password?:string}) {
+    if (!formData.email || !formData.password){
+        return {error: "Please enter your email and password"}
+    }
+
+    const user=await db.user.findUnique({
+        where:{ email:formData.email}
+    })
+    if(!user){
+        return {error:"No user fount with this email"}
+    }
+
+    const isPasswordCorrect=await bcrypt.compare(formData.password,user.password)
+
+    if(!isPasswordCorrect){
+        return {error:"Incorrect password"}
+    }
+    return {success:true}
+
+    
+    
 }
