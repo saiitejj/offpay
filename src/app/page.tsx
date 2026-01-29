@@ -11,20 +11,26 @@ export default function HomePage(){
           </h1>
         </Link>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
-              <h3 className="text-2xl font-bold">Status: Building 🏗️</h3>
+          
+          <Link href="/signup" className="cursor-pointer">
+            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+                <h3 className="text-2xl font-bold">Status: Building 🏗️</h3>
+                <div className="text-lg">
+                  Created the Manager Signup flow and company Registration.
+
+                </div>
+            </div>
+          </Link>
+          <Link href="/login" className="cursor-pointer">
+            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+              
+              <h3 className="text-2xl font-bold">Next Update</h3>
               <div className="text-lg">
-                Database is synced. #OP engine is starting up.
+                Creating the Login Page 😊 .
 
               </div>
-          </div>
-          <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
-            <h3 className="text-2xl font-bold">Next Update</h3>
-            <div className="text-lg">
-              Creating the Manager Signup flow and company Registration.
-
             </div>
-          </div>
+          </Link>
         </div>
 
       </div>
