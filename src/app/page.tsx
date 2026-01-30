@@ -14,23 +14,28 @@ export default function HomePage(){
           
           <Link href="/signup" className="cursor-pointer">
             <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
-                <h3 className="text-2xl font-bold">Status: Building 🏗️</h3>
-                <div className="text-lg">
-                  Created the Manager Signup flow and company Registration.
-
-                </div>
-            </div>
-          </Link>
-          <Link href="/login" className="cursor-pointer">
-            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
-              
-              <h3 className="text-2xl font-bold">Next Update</h3>
-              <div className="text-lg">
-                Creating the Login Page 😊 .
-
+              <h3 className="text-2xl font-bold text-[#10B981]">Complete ✅</h3>
+              <div className="text-lg text-zinc-300">
+                Manager Signup flow and company Registration are live.
               </div>
             </div>
           </Link>
+
+          <Link href="/login" className="cursor-pointer">
+            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/50 p-4 border border-zinc-800 hover:bg-zinc-800/50 transition-colors">
+              <h3 className="text-2xl font-bold text-[#10B981]">Complete ✅</h3>
+              <div className="text-lg text-zinc-300">
+                Secure Login flow with session handling.
+              </div>
+            </div>
+          </Link>
+
+          <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-zinc-900/10 p-4 border border-zinc-800/50 opacity-60">
+            <h3 className="text-2xl font-bold">Next Update</h3>
+            <div className="text-lg">
+              Creating the Employee Dashboard 🚀
+            </div>
+          </div>
         </div>
 
       </div>
