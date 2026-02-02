@@ -1,7 +1,15 @@
 "use client"
 import { logoutUser } from "~/app/(auth)/signup/actions"
-import { act, useState } from "react"
+import { useState } from "react"
+import { cookies } from "next/headers"
+import { decrypt } from "~/lib/session"
+import { redirect } from "next/navigation"
+
 export default function DashboardPage(){
+    
+
+
+
     const [activeTab,setActiveTab]=useState("")
     const handleLogout=async ()=>{
         await logoutUser()
