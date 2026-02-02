@@ -2,6 +2,8 @@
 
 import { db } from "../../../lib/db"
 import * as bcrypt from "bcryptjs"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 interface RegisterCompanyData {
     name?:string;
@@ -11,6 +13,12 @@ interface RegisterCompanyData {
     employeeCount?: string;
     employerName?: string;
     email?: string;
+}
+
+export async function logoutUser(){
+    const cookieStore=await cookies()
+    cookieStore.delete("session")
+    redirect("/login")
 }
 
 export async function registerCompany(formData:RegisterCompanyData) {
