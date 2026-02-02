@@ -3,6 +3,8 @@
 import { db } from "../../../lib/db"
 import * as bcrypt from "bcryptjs"
 import { cookies } from "next/headers"
+
+import { createSession,deleteSession } from "~/lib/session"
 import { redirect } from "next/navigation"
 
 interface RegisterCompanyData {
@@ -16,8 +18,7 @@ interface RegisterCompanyData {
 }
 
 export async function logoutUser(){
-    const cookieStore=await cookies()
-    cookieStore.delete("session")
+    await deleteSession()
     redirect("/login")
 }
 
@@ -74,7 +75,9 @@ export async function loginUser(formData:{email?:string;password?:string}) {
     if(!isPasswordCorrect){
         return {error:"Incorrect password"}
     }
-    return {success:true}
+    await createSession(user.id,user.role)
+    alert("Success Redirecting ...")
+    redirect("/dashboard")
 
     
     
