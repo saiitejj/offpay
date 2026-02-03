@@ -79,11 +79,15 @@ export async function loginUser(formData:{email?:string;password?:string}) {
         }
         await createSession(user.id,user.role)
         redirect("/dashboard");
-    }catch(error){
-        if (isRedirectError(error)) throw error;
-        console.error("LOGIN_ERROR",error)
-        return {error:"Invalid email or password"}
-    }
+    } catch (error) {
+    if (isRedirectError(error)) throw error;
+    
+    console.error("DEBUG_LOGIN_ERROR:", error); 
+    
+    return { 
+        error: error instanceof Error ? error.message : "An unknown error occurred" 
+    };
+}
 
     
     
