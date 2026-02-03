@@ -3,7 +3,7 @@
 import { db } from "../../../lib/db"
 import * as bcrypt from "bcryptjs"
 import { cookies } from "next/headers"
-
+import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { createSession,deleteSession } from "~/lib/session"
 import { redirect } from "next/navigation"
 
@@ -78,9 +78,11 @@ export async function loginUser(formData:{email?:string;password?:string}) {
             return {error:"Incorrect password"}
         }
         await createSession(user.id,user.role)
-        redirect("/dashboard")
+        redirect("/dashboard");
     }catch(error){
-        return {error:"Invalid email or password",error}
+        if (isRedirectError(error)) throw error;
+        console.error("LOGIN_ERROR",error)
+        return {error:"Invalid email or password"}
     }
 
     
