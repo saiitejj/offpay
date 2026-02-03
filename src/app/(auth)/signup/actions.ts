@@ -59,25 +59,29 @@ export async function registerCompany(formData:RegisterCompanyData) {
 }
 
 export async function loginUser(formData:{email?:string;password?:string}) {
-    if (!formData.email || !formData.password){
-        return {error: "Please enter your email and password"}
-    }
+    try{
 
-    const user=await db.user.findUnique({
-        where:{ email:formData.email}
-    })
-    if(!user){
-        return {error:"No user fount with this email"}
+        if (!formData.email || !formData.password){
+            return {error: "Please enter your email and password"}
+        }
+    
+        const user=await db.user.findUnique({
+            where:{ email:formData.email}
+        })
+        if(!user){
+            return {error:"No user fount with this email"}
+        }
+    
+        const isPasswordCorrect=await bcrypt.compare(formData.password,user.password)
+    
+        if(!isPasswordCorrect){
+            return {error:"Incorrect password"}
+        }
+        await createSession(user.id,user.role)
+        redirect("/dashboard")
+    }catch(error){
+        return {error:"Invalid email or password",error}
     }
-
-    const isPasswordCorrect=await bcrypt.compare(formData.password,user.password)
-
-    if(!isPasswordCorrect){
-        return {error:"Incorrect password"}
-    }
-    await createSession(user.id,user.role)
-    alert("Success Redirecting ...")
-    redirect("/dashboard")
 
     
     
