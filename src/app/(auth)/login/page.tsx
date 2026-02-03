@@ -2,11 +2,9 @@
 
 import { useState } from "react"
 import { loginUser } from "../signup/actions"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export default function LoginPage(){
-    const router=useRouter()
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [isPending,setIsPending]=useState(false)
