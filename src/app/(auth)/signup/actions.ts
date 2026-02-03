@@ -3,7 +3,7 @@
 import { db } from "../../../lib/db"
 import * as bcrypt from "bcryptjs"
 import { cookies } from "next/headers"
-
+import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { createSession,deleteSession } from "~/lib/session"
 import { redirect } from "next/navigation"
 
@@ -59,25 +59,31 @@ export async function registerCompany(formData:RegisterCompanyData) {
 }
 
 export async function loginUser(formData:{email?:string;password?:string}) {
-    if (!formData.email || !formData.password){
-        return {error: "Please enter your email and password"}
-    }
+    try{
 
-    const user=await db.user.findUnique({
-        where:{ email:formData.email}
-    })
-    if(!user){
-        return {error:"No user fount with this email"}
+        if (!formData.email || !formData.password){
+            return {error: "Please enter your email and password"}
+        }
+    
+        const user=await db.user.findUnique({
+            where:{ email:formData.email}
+        })
+        if(!user){
+            return {error:"No user fount with this email"}
+        }
+    
+        const isPasswordCorrect=await bcrypt.compare(formData.password,user.password)
+    
+        if(!isPasswordCorrect){
+            return {error:"Incorrect password"}
+        }
+        await createSession(user.id,user.role)
+        redirect("/dashboard");
+    }catch(error){
+        if (isRedirectError(error)) throw error;
+        console.error("LOGIN_ERROR",error)
+        return {error:"Invalid email or password"}
     }
-
-    const isPasswordCorrect=await bcrypt.compare(formData.password,user.password)
-
-    if(!isPasswordCorrect){
-        return {error:"Incorrect password"}
-    }
-    await createSession(user.id,user.role)
-    alert("Success Redirecting ...")
-    redirect("/dashboard")
 
     
     

@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { loginUser } from "../signup/actions"
 import { useRouter } from "next/navigation"
-import { redirect } from "next/navigation"
 import Link from "next/link"
 
 export default function LoginPage(){
@@ -19,9 +18,7 @@ export default function LoginPage(){
             alert(response.error)
             setIsPending(false)
         }
-        else{
-            router.push("/dashboard")
-        }
+        
     }
     return(
         <div className="flex flex-col items-center  justify-center min-h-screen bg-black text-white p-4">
